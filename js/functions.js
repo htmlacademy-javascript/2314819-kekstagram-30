@@ -1,12 +1,12 @@
-// Функция для проверки длины строки (c учетом пробелов)
-const checkFunctionLenght = (string, NeededLength) => string.length <= NeededLength;
+// Функция для проверки длины строки
+const checkStringLenght = (string, maxLength) => string.length <= maxLength;
 
-// Функция для проверки, является ли строка палиндромом
+// Функция для проверки, является ли строка палиндромом (c учетом пробелов)
 const checkPalindrome = (string) => {
   if (!string) {
     return false;
   }
-  const shortString = string.split('').filter((e) => e !== ' ').map((e) => e.toLowerCase());
+  const shortString = string.replaceAll(' ', '').toLowerCase();
   for (let i = 0; i < Math.round(shortString.length / 2); i++) {
     if (shortString[i] !== shortString[shortString.length - 1 - i]) {
       return false;
@@ -21,6 +21,6 @@ const findAllNumbers = (string) => {
   return result.length ? +result.join('') : NaN;
 };
 
-checkFunctionLenght('Привет', 20);
-checkPalindrome('Топот');
+checkStringLenght('Привет', 20);
+checkPalindrome('Лёша на полКе клопа нашёл ');
 findAllNumbers(-1);
