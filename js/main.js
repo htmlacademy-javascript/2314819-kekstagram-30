@@ -1,3 +1,4 @@
-import {getPictures} from './data.js';
+import {getPictures} from './data-generation.js';
+
 
 getPictures();
