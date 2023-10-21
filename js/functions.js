@@ -31,6 +31,7 @@ const findAllNumbers = (string) => {
 возвращает true, если встреча не выходит за рамки рабочего дня,
 и false, если выходит.
 ( и рабочий день, и встреча укладываются в одни календарные сутки)
+алгоритмическая сложность O(1)
 */
 const checkMeetingWithinWorkingHours = (startTime, endTime, meetingStart, meetingDuration) => {
   // Вспомогательная функция для вычисления времени в минутах
