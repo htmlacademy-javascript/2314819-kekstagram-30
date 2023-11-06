@@ -33,13 +33,14 @@ const findAllNumbers = (string) => {
 ( и рабочий день, и встреча укладываются в одни календарные сутки)
 алгоритмическая сложность O(1)
 */
-const checkMeetingWithinWorkingHours = (startTime, endTime, meetingStart, meetingDuration) => {
-  // Вспомогательная функция для вычисления времени в минутах
-  const getTimeInMinute = (time) => {
-    const timeParts = time.split(':');
-    return (+timeParts[0] * 60) + +timeParts[1];
-  };
 
+// Вспомогательная функция для вычисления времени в минутах
+const getTimeInMinute = (time) => {
+  const timeParts = time.split(':');
+  return (+timeParts[0] * 60) + +timeParts[1];
+};
+
+const checkMeetingWithinWorkingHours = (startTime, endTime, meetingStart, meetingDuration) => {
   // Переводим все временные промежутки в минуты при помощи деструктуризации
   [startTime, endTime, meetingStart] = [startTime, endTime, meetingStart].map((e) => getTimeInMinute(e));
 
