@@ -36,13 +36,13 @@ const findAllNumbers = (string) => {
 
 // Вспомогательная функция для вычисления времени в минутах
 const getTimeInMinute = (time) => {
-  const timeParts = time.split(':');
+  const timeParts = `${time}`.split(':');
   return (+timeParts[0] * 60) + +timeParts[1];
 };
 
 const checkMeetingWithinWorkingHours = (startTime, endTime, meetingStart, meetingDuration) => {
   // Переводим все временные промежутки в минуты при помощи деструктуризации
-  [startTime, endTime, meetingStart] = [startTime, endTime, meetingStart].map((e) => getTimeInMinute(e));
+  [startTime, endTime, meetingStart] = [startTime, endTime, meetingStart].map((element) => getTimeInMinute(element));
 
   // Время окончания встречи
   meetingStart += meetingDuration;
@@ -53,4 +53,4 @@ const checkMeetingWithinWorkingHours = (startTime, endTime, meetingStart, meetin
 checkStringLenght('Привет', 20);
 checkPalindrome('Леша на полке клопа нашел');
 findAllNumbers(-1);
-checkMeetingWithinWorkingHours(('8:00', '17:30', '08:00', 900));
+console.log(checkMeetingWithinWorkingHours(('8:00', '17:30', '08:00', 900)));

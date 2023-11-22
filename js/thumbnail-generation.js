@@ -1,3 +1,5 @@
+import { showBigPicture } from './big-picture.js';
+
 const thumbailTemplate = document
   .querySelector('#picture')
   .content
@@ -13,6 +15,10 @@ const createThumbnail = ({url, description, likes, comments}) => {
   thumbnail.querySelector('.picture__comments').textContent = comments.length;
   thumbnail.querySelector('.picture__likes').textContent = likes;
 
+  thumbnail.addEventListener('click', () => {
+    showBigPicture({url, description, likes, comments});
+  });
+
   return thumbnail;
 };
 
@@ -24,5 +30,6 @@ const renderThumbnails = (pictures) => {
   });
   picturesContainer.append(fragment);
 };
+
 
 export {renderThumbnails};
