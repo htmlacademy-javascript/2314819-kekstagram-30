@@ -2,8 +2,11 @@ const bigPicture = document.querySelector('.big-picture');
 const commentCount = document.querySelector('.social__comment-count');
 const commentList = document.querySelector('.social__comments');
 const commentsLoader = document.querySelector('.comments-loader');
-const body = document.querySelector('body');
 const cancelButton = document.querySelector('.big-picture__cancel');
+
+const MAX_COMMENTS_COUNTER = 5;
+let commentsShown = 0;
+let comments = [];
 
 const createComment = ({ avatar, name, message }) => {
   const comment = document.createElement('li');
@@ -18,22 +21,32 @@ const createComment = ({ avatar, name, message }) => {
   return comment;
 };
 
-const renderComments = (comments) => {
-  commentList.innerHTML = '';
+const renderComments = () => {
+  commentsShown += MAX_COMMENTS_COUNTER;
+
+  if (commentsShown >= comments.length) {
+    commentsLoader.classList.add('hidden');
+    commentsShown = comments.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
 
   const fragment = document.createDocumentFragment();
-  comments.forEach((comment) => {
-    const commentElement = createComment(comment);
-    fragment.append(commentElement);
-  });
+  for (let i = 0; i < commentsShown; i++) {
+    const commentsElement = createComment(comments[i]);
+    fragment.append(commentsElement);
+  }
 
+  commentList.innerHTML = '';
   commentList.append(fragment);
+  commentCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
 };
 
 const hideBigPicture = () => {
   bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
+  commentsShown = 0;
 };
 
 function onEscKeyDown(evt) {
@@ -43,17 +56,17 @@ function onEscKeyDown(evt) {
   }
 }
 
-const onCancelButtonClick = () => {
-  hideBigPicture();
-};
-
-const outOfWindowsClick = () => {
+const outOfModalClick = () => {
   bigPicture.addEventListener('click', (element) => {
     if (element.target === bigPicture) {
-      bigPicture.classList.add('hidden');
+      hideBigPicture();
     }
   });
 };
+
+const onCancelButtonClick = () => hideBigPicture();
+
+const onCommentsLoaderClick = () => renderComments();
 
 const renderPictureDetails = ({ url, likes, description }) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
@@ -64,36 +77,19 @@ const renderPictureDetails = ({ url, likes, description }) => {
 
 const showBigPicture = (data) => {
   bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   commentsLoader.classList.add('hidden');
-  commentCount.classList.add('hidden');
   document.addEventListener('keydown', onEscKeyDown);
-  outOfWindowsClick();
+  outOfModalClick();
 
   renderPictureDetails(data);
-  renderComments(data.comments);
+  comments = data.comments;
+  if (comments.length > 0) {
+    renderComments();
+  }
 };
 
 cancelButton.addEventListener('click', onCancelButtonClick);
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 export { showBigPicture };
-
-
-// document.addEventListener('click', (evt) => {
-//   // если точка не имеет родителя .picture
-//   if (!evt.target.closest('.picture')) {
-//     return;
-//   }
-
-//   const currentThumbnailId = evt.target.closest('.picture').id;
-
-//   const currentPicture = pictures.find((item) => +item.id === +currentThumbnailId);
-
-//   if (currentPicture) {
-//     const bigPhoto = document.querySelector('.big-picture');
-//     bigPhoto.classList.remove('hidden');
-//   }
-
-//   console.log(currentPicture)
-
-// });
