@@ -1,8 +1,3 @@
-// import {
-//   init as initEffect,
-//   reset as resetEffect
-// } from './effects.js';
-
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 
@@ -51,7 +46,7 @@ const isTextFileFocused = () =>
 const normalizeTags = (tagString) => tagString
   .trim()
   .split(' ')
-  .filter((tag) => Boolean(tag.length)); // Отсеять пустые строки
+  .filter((tag) => Boolean(tag.length));
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => VALID_SYMBOLS.test(tag));
 
