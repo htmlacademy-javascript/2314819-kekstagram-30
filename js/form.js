@@ -1,5 +1,7 @@
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
+import { sendPicture } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAGS = 5;
 const VALID_SYMBOLS = /^#[a-za-яё0-9]{1,19}$/i;
@@ -10,12 +12,25 @@ const ErrorText = {
   INVALID_PATTERN: 'Неправильный хэштег'
 };
 
+const SubmitButtonCaption = {
+  SUBMITING : 'Отправляю..',
+  IDLE : 'Опубликовать',
+};
+
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
 const cancelButton = document.querySelector('.img-upload__cancel');
 const fileField = document.querySelector('.img-upload__input');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
+
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled
+    ? SubmitButtonCaption.SUBMITING
+    : SubmitButtonCaption.IDLE;
+};
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -72,9 +87,26 @@ const onFileInputChange = () => {
   showModal();
 };
 
-const onFormSubmit = (evt) => {
+const sendForm = async (formElement) => {
+  if (!pristine.validate()) {
+    return;
+  }
+
+  try {
+    toggleSubmitButton(true);
+    await sendPicture(new FormData(formElement));
+    toggleSubmitButton(false);
+    hideModal();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+    toggleSubmitButton(false);
+  }
+};
+
+const onFormSubmit = async (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  sendForm(evt.target);
 };
 
 pristine.addValidator(
