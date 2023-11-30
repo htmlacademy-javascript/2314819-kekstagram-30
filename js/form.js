@@ -164,7 +164,6 @@ const setUserFormSubmit = (onSuccess, onFail) => {
   });
 };
 
-
 fileInput.addEventListener('change', onFileInputChange);
 
 redactorCancelButton.addEventListener('click', onCancelButtonClick);
