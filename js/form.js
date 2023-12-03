@@ -95,7 +95,6 @@ const normalizeHashtags = (tagString) => tagString
   .split(' ')
   .filter((tag) => Boolean(tag.length));
 
-
 const validateHashtagsFormat = (value) => normalizeHashtags(value).every((tag) => VALID_SYMBOLS.test(tag));
 
 const validateHashtagsUniqueness = (value) => {
@@ -163,7 +162,6 @@ const setUserFormSubmit = (onSuccess, onFail) => {
     }
   });
 };
-
 
 fileInput.addEventListener('change', onFileInputChange);
 

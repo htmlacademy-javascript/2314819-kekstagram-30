@@ -36,6 +36,7 @@ const showMessage = (element, buttonClass) => {
   document.body.append(element);
   document.body.addEventListener('click', onBodyClick);
   document.addEventListener('keydown', onMessageEscKeydown);
+
   element
     .querySelector(buttonClass)
     .addEventListener('click', onCloseButtonClick);
@@ -50,3 +51,4 @@ const showErrorMessage = () => {
 };
 
 export {showSuccesMessage, showErrorMessage};
+
